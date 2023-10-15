@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/crud/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/crud/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/domain/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/domain/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jax-rs-2/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jax-rs-2/src/main/resources" charset="UTF-8" />
   </component>

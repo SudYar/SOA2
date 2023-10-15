@@ -1,4 +1,4 @@
-package com.mastertheboss.jaxrs.domain.entity;
+package entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,8 +26,8 @@ public class Coordinates {
 	@SequenceGenerator(
 			name = "coordinatesSequence",
 			sequenceName = "coordinatesId_seq",
-			allocationSize = 1,
-			initialValue = 1)
+			allocationSize = 1
+	)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "coordinatesSequence")
 	private Long id;
 

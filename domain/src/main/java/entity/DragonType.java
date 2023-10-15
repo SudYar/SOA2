@@ -1,4 +1,4 @@
-package com.mastertheboss.jaxrs.domain.entity;
+package entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,15 +8,16 @@ import java.util.Objects;
 
 @Getter
 @RequiredArgsConstructor
-public enum Color {
-	ORANGE("orange"),
-	WHITE("white"),
-	BROWN("brown");
+public enum DragonType {
+	WATER("water"),
+	UNDERGROUND("underground"),
+	AIR("air"),
+	FIRE("fire");
 
 	private final String value;
 
-	public static Color fromValue(String value) {
-		return Arrays.stream(Color.values())
+	public static DragonType fromValue(String value) {
+		return Arrays.stream(DragonType.values())
 				.filter(e -> Objects.equals(e.getValue(), value))
 				.findFirst()
 				.orElse(null);

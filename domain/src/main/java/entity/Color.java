@@ -1,4 +1,4 @@
-package com.mastertheboss.jaxrs.domain.entity;
+package entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
