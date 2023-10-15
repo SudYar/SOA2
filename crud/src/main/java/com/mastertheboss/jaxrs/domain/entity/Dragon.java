@@ -1,4 +1,4 @@
-package entity;
+package com.mastertheboss.jaxrs.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -34,22 +34,22 @@ public class Dragon {
 	@SequenceGenerator(
 			name = "dragonSequence",
 			sequenceName = "dragonId_seq",
-			allocationSize = 1
-	)
+			allocationSize = 1,
+			initialValue = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dragonSequence")
 	private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
 
-	@Column(length = 40, nullable = false)
+	@Column(length = 40)
 	private String name; //Поле не может быть null, Строка не может быть пустой
 
 	@OneToOne
 	@JoinColumn(name = "coordinates_id", nullable = false)
 	private Coordinates coordinates; //Поле не может быть null
 
-	@Column(length = 40, nullable = false)
+	@Column(length = 40)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", shape = JsonFormat.Shape.STRING)
-	private LocalDateTime creationDate = LocalDateTime.now(); //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+	private LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
 
 	@Column(length = 40)
 	private int age; //Значение поля должно быть больше 0

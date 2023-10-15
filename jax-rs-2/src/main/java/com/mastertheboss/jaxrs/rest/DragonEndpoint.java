@@ -1,7 +1,7 @@
 package com.mastertheboss.jaxrs.rest;
 
+import com.mastertheboss.jaxrs.domain.entity.Dragon;
 import com.mastertheboss.jaxrs.domain.repository.DragonRepository;
-import entity.Dragon;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

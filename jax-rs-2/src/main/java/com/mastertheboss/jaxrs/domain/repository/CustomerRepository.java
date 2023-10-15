@@ -1,8 +1,7 @@
 package com.mastertheboss.jaxrs.domain.repository;
 
 
-
-import entity.Customer;
+import com.mastertheboss.jaxrs.domain.entity.Customer;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;

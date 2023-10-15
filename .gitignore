@@ -1,5 +1,2 @@
 # Project exclude paths
 /crud/target/
-/jax-rs-2/target/
-/*/.idea
-/*/Postman
