@@ -1,8 +1,8 @@
 package com.mastertheboss.jaxrs.rest;
 
 
-import com.mastertheboss.jaxrs.domain.entity.Customer;
-import com.mastertheboss.jaxrs.domain.repository.CustomerRepository;
+import com.mastertheboss.jaxrs.domain.entity.Person;
+import com.mastertheboss.jaxrs.domain.repository.PersonRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -18,35 +18,35 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 
-@Path("customers")
+@Path("persons")
 @ApplicationScoped
 @Produces("application/json")
 @Consumes("application/json")
-public class CustomerEndpoint {
+public class PersonEndpoint {
 
 	@Inject
-	CustomerRepository customerRepository;
+	PersonRepository personRepository;
 
 	@GET
-	public List<Customer> getAll() {
-		return customerRepository.findAll();
+	public List<Person> getAll() {
+		return personRepository.findAll();
 	}
 
 	@POST
-	public Response create(Customer customer) {
-		customerRepository.createCustomer(customer);
+	public Response create(Person person) {
+		personRepository.createPerson(person);
 		return Response.status(201).build();
 	}
 
 	@PUT
-	public Response update(Customer customer) {
-		customerRepository.updateCustomer(customer);
+	public Response update(Person person) {
+		personRepository.updatePerson(person);
 		return Response.status(204).build();
 	}
 
 	@DELETE
-	public Response delete(@QueryParam("id") Long customerId) {
-		customerRepository.deleteCustomer(customerId);
+	public Response delete(@QueryParam("id") Long personId) {
+		personRepository.deleteCustomer(personId);
 		return Response.status(204).build();
 	}
 

@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import java.util.Date;
 
@@ -21,6 +22,8 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQuery(name = "Persons.findAll",
+		query = "SELECT c FROM Person c ORDER BY c.id")
 public class Person {
 
 	@Id
@@ -32,7 +35,7 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personSequence")
 	private Long id;
 
-	@Column(length = 40)
+	@Column(length = 40, nullable = false)
 	private String name; //Поле не может быть null, Строка не может быть пустой
 
 	@Column(length = 40)
@@ -40,12 +43,12 @@ public class Person {
 	@JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
 	private Date birthday; //Поле может быть null
 
-	@Column(length = 40)
+	@Column(length = 40, nullable = false)
 	private Long height; //Поле не может быть null, Значение поля должно быть больше 0
 
 	@Column(length = 40)
 	private String passportID; //Поле может быть null
 
-	@Column(length = 40)
+	@Column(length = 40, nullable = false)
 	private Color hairColor; //Поле не может быть null
 }

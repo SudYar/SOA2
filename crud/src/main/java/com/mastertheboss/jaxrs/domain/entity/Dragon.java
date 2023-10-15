@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,11 +40,11 @@ public class Dragon {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dragonSequence")
 	private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
 
-	@Column(length = 40)
+	@Column(length = 40, nullable = false)
 	private String name; //Поле не может быть null, Строка не может быть пустой
 
-	@OneToOne
-	@JoinColumn(name = "coordinates_id", nullable = false)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "coordinates_id", referencedColumnName = "id", nullable = false)
 	private Coordinates coordinates; //Поле не может быть null
 
 	@Column(length = 40)
@@ -63,7 +64,7 @@ public class Dragon {
 	@Column(length = 40)
 	private DragonCharacter character; //Поле может быть null
 
-	@OneToOne
-	@JoinColumn(name = "person_id")
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "person_id", referencedColumnName = "id")
 	private Person killer; //Поле может быть null
 }

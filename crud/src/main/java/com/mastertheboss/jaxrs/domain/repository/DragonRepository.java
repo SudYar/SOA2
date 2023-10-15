@@ -39,13 +39,13 @@ public class DragonRepository {
 		dragonToUpdate.setColor(dragon.getColor());
 		dragonToUpdate.setCharacter(dragon.getCharacter());
 		dragonToUpdate.setKiller(dragon.getKiller());
+		entityManager.refresh(dragonToUpdate);
 	}
 
 	@Transactional
 	public void createDragon(Dragon dragon) {
 		System.out.println(dragon);
-		entityManager.persist(dragon.getCoordinates());
-		entityManager.persist(dragon);
+		entityManager.merge(dragon);
 	}
 
 	@Transactional
