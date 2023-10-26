@@ -12,7 +12,7 @@ public enum DragonCharacter {
 	WISE("wise"),
 	CHAOTIC("chaotic"),
 	CHAOTIC_EVIL("chaotic_evil"),
-	FICKLE("wise");
+	FICKLE("fickle");
 
 	private final String value;
 
