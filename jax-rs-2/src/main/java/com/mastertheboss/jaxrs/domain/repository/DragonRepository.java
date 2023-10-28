@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.ws.rs.WebApplicationException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -39,13 +40,13 @@ public class DragonRepository {
 		dragonToUpdate.setColor(dragon.getColor());
 		dragonToUpdate.setCharacter(dragon.getCharacter());
 		dragonToUpdate.setKiller(dragon.getKiller());
+		entityManager.refresh(dragonToUpdate);
 	}
 
 	@Transactional
 	public void createDragon(Dragon dragon) {
-		System.out.println(dragon);
-		entityManager.persist(dragon.getCoordinates());
-		entityManager.persist(dragon);
+		dragon.setCreationDate(LocalDateTime.now());
+		entityManager.merge(dragon);
 	}
 
 	@Transactional

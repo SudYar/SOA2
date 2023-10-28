@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.ws.rs.WebApplicationException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -44,7 +45,7 @@ public class DragonRepository {
 
 	@Transactional
 	public void createDragon(Dragon dragon) {
-		System.out.println(dragon);
+		dragon.setCreationDate(LocalDateTime.now());
 		entityManager.merge(dragon);
 	}
 

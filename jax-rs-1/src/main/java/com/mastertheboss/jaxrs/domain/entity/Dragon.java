@@ -50,7 +50,7 @@ public class Dragon {
 	@Column(length = 40)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", shape = JsonFormat.Shape.STRING)
-	private LocalDateTime creationDate = LocalDateTime.now(); //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+	private LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
 
 	@Column(length = 40)
 	private int age; //Значение поля должно быть больше 0
