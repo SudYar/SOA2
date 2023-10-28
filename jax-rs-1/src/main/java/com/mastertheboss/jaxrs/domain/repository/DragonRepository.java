@@ -1,8 +1,11 @@
 package com.mastertheboss.jaxrs.domain.repository;
 
+import com.mastertheboss.jaxrs.domain.dto.DragonDTO;
 import com.mastertheboss.jaxrs.domain.entity.Dragon;
+import com.mastertheboss.jaxrs.domain.entity.Person;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -13,6 +16,9 @@ import java.util.List;
 
 @ApplicationScoped
 public class DragonRepository {
+
+	@Inject
+	PersonRepository personRepository;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -31,16 +37,20 @@ public class DragonRepository {
 	}
 
 	@Transactional
-	public void updateDragon(Dragon dragon) {
-		Dragon dragonToUpdate = findDragonById(dragon.getId());
-		dragonToUpdate.setName(dragon.getName());
-		dragonToUpdate.setCoordinates(dragon.getCoordinates());
-		dragonToUpdate.setCreationDate(dragon.getCreationDate());
-		dragonToUpdate.setAge(dragon.getAge());
-		dragonToUpdate.setColor(dragon.getColor());
-		dragonToUpdate.setCharacter(dragon.getCharacter());
-		dragonToUpdate.setKiller(dragon.getKiller());
-		entityManager.refresh(dragonToUpdate);
+	public void updateDragon(DragonDTO dragonDTO) {
+		Person killer = null;
+		if (dragonDTO.getKiller() != null) {
+			killer = personRepository.findPersonById(dragonDTO.getKiller());
+		}
+		Dragon dragonToUpdate = findDragonById(dragonDTO.getId());
+		dragonToUpdate.setId(dragonDTO.getId());
+		dragonToUpdate.setName(dragonDTO.getName());
+		dragonToUpdate.setCoordinates(dragonDTO.getCoordinates());
+		dragonToUpdate.setAge(dragonDTO.getAge());
+		dragonToUpdate.setColor(dragonDTO.getColor());
+		dragonToUpdate.setCharacter(dragonDTO.getCharacter());
+		dragonToUpdate.setKiller(killer);
+		entityManager.merge(dragonToUpdate);
 	}
 
 	@Transactional
@@ -51,8 +61,9 @@ public class DragonRepository {
 
 	@Transactional
 	public void deleteDragon(Integer dragonId) {
-		Dragon c = findDragonById(dragonId);
-		entityManager.remove(c);
+		Dragon dragon = findDragonById(dragonId);
+		dragon.setKiller(null);
+		entityManager.remove(dragon);
 	}
 
 }

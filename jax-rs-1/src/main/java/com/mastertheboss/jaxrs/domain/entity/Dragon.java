@@ -16,7 +16,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import java.time.LocalDateTime;
@@ -64,7 +66,7 @@ public class Dragon {
 	@Column(length = 40)
 	private DragonCharacter character; //Поле может быть null
 
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "person_id", referencedColumnName = "id")
 	private Person killer; //Поле может быть null
 }
