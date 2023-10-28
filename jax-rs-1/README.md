@@ -67,3 +67,22 @@ curl --request DELETE \
 
 curl --request DELETE \
 --url http://localhost:8080/jax-rs-1/api/v1/persons/2
+
+-----------------------------------------------------------------------
+
+curl --request GET \
+--url http://localhost:8080/jax-rs-1/api/v1/dragons/delete-killed \
+--header 'Content-Type: application/json' \
+--data '{
+"id" : "1"
+}'
+
+curl --request GET \
+--url http://localhost:8080/jax-rs-1/api/v1/dragons/delete-by-type \
+--header 'Content-Type: application/json' \
+--data '{
+"value" : "AIR"
+}'
+
+curl --request GET \
+--url http://localhost:8080/jax-rs-1/api/v1/dragons/get-by-max-color

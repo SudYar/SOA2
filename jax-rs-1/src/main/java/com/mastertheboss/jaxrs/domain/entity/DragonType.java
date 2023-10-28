@@ -18,7 +18,7 @@ public enum DragonType {
 
 	public static DragonType fromValue(String value) {
 		return Arrays.stream(DragonType.values())
-				.filter(e -> Objects.equals(e.getValue(), value))
+				.filter(e -> Objects.equals(e.getValue(), value.toLowerCase()))
 				.findFirst()
 				.orElse(null);
 	}
