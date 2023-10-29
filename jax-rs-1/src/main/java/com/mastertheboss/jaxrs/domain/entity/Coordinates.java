@@ -35,5 +35,5 @@ public class Coordinates {
 	private Float x; //Поле не может быть null
 
 	@Column(length = 40)
-	private double y; //Значение поля должно быть больше -796
+	private Long y; //Значение поля должно быть больше -796
 }
