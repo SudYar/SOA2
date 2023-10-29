@@ -33,6 +33,12 @@ curl --request GET \
 curl --request GET \
 --url http://localhost:8080/jax-rs-1/api/v1/persons
 
+curl --request GET \
+--url http://localhost:8080/jax-rs-1/api/v1/dragons/1
+
+curl --request GET \
+--url http://localhost:8080/jax-rs-1/api/v1/persons/1
+
 curl --request PUT \
 --url http://localhost:8080/jax-rs-1/api/v1/dragons \
 --header 'Content-Type: application/json' \

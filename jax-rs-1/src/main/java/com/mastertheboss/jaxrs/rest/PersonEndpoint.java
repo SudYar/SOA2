@@ -40,6 +40,12 @@ public class PersonEndpoint {
 		return personRepository.findAll();
 	}
 
+	@GET
+	@Path("{id}")
+	public Person getPersonById(@PathParam("id") Long id) {
+		return personRepository.findPersonById(id);
+	}
+
 	@POST
 	public Response create(Person person) {
 		personRepository.createPerson(person);

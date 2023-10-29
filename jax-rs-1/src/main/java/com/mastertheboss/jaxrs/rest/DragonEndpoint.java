@@ -40,6 +40,12 @@ public class DragonEndpoint {
 		return dragonRepository.findAll();
 	}
 
+	@GET
+	@Path("{id}")
+	public Dragon getDragonById(@PathParam("id") Integer id) {
+		return dragonRepository.findDragonById(id);
+	}
+
 	@POST
 	public Response create(DragonDTO dragonDTO) {
 		Person killer = null;
