@@ -1,5 +1,6 @@
 ### cURLs:
 
+```shell
 curl --request POST \
 --url http://localhost:8080/jax-rs-1/api/v1/dragons \
 --header 'Content-Type: application/json' \
@@ -15,7 +16,9 @@ curl --request POST \
 "character" : "WISE",
 "killer" : "2"
 }'
+```
 
+```shell
 curl --request POST \
 --url http://localhost:8080/jax-rs-1/api/v1/persons \
 --header 'Content-Type: application/json' \
@@ -26,19 +29,29 @@ curl --request POST \
 "passportID" : "3316 417701",
 "hairColor" : "WHITE"
 }'
+```
 
+```shell
 curl --request GET \
 --url http://localhost:8080/jax-rs-1/api/v1/dragons
+```
 
+```shell
 curl --request GET \
 --url http://localhost:8080/jax-rs-1/api/v1/persons
+```
 
+```shell
 curl --request GET \
 --url http://localhost:8080/jax-rs-1/api/v1/dragons/1
+```
 
+```shell
 curl --request GET \
 --url http://localhost:8080/jax-rs-1/api/v1/persons/1
+```
 
+```shell
 curl --request PUT \
 --url http://localhost:8080/jax-rs-1/api/v1/dragons \
 --header 'Content-Type: application/json' \
@@ -55,7 +68,9 @@ curl --request PUT \
 "character" : "WISE",
 "killer" : "1"
 }'
+```
 
+```shell
 curl --request PUT \
 --url http://localhost:8080/jax-rs-1/api/v1/persons \
 --header 'Content-Type: application/json' \
@@ -67,28 +82,39 @@ curl --request PUT \
 "passportID" : "3316 417701",
 "hairColor" : "WHITE"
 }'
+```
 
+```shell
 curl --request DELETE \
 --url http://localhost:8080/jax-rs-1/api/v1/dragons/4
+```
 
+```shell
 curl --request DELETE \
 --url http://localhost:8080/jax-rs-1/api/v1/persons/2
+```
 
 -----------------------------------------------------------------------
 
+```shell
 curl --request GET \
 --url http://localhost:8080/jax-rs-1/api/v1/dragons/delete-killed \
 --header 'Content-Type: application/json' \
 --data '{
 "id" : "1"
 }'
+```
 
+```shell
 curl --request GET \
 --url http://localhost:8080/jax-rs-1/api/v1/dragons/delete-by-type \
 --header 'Content-Type: application/json' \
 --data '{
 "value" : "AIR"
 }'
+```
 
+```shell
 curl --request GET \
 --url http://localhost:8080/jax-rs-1/api/v1/dragons/get-by-max-color
+```

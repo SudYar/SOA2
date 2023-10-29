@@ -25,7 +25,7 @@ public class PersonRepository {
 	public Person findPersonById(Long id) {
 		Person person = entityManager.find(Person.class, id);
 		if (person == null) {
-			throw new WebApplicationException("Customer with id of " + id + " does not exist.", 404);
+			throw new WebApplicationException("Person with id of " + id + " does not exist.", 404);
 		}
 		return person;
 	}
@@ -38,6 +38,7 @@ public class PersonRepository {
 		personToUpdate.setHeight(person.getHeight());
 		personToUpdate.setPassportID(person.getPassportID());
 		personToUpdate.setHairColor(person.getHairColor());
+		entityManager.refresh(personToUpdate);
 	}
 
 	@Transactional
@@ -46,7 +47,7 @@ public class PersonRepository {
 	}
 
 	@Transactional
-	public void deleteCustomer(Long personId) {
+	public void deletePerson(Long personId) {
 		Person c = findPersonById(personId);
 		entityManager.remove(c);
 	}

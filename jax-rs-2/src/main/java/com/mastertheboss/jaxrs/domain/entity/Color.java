@@ -9,11 +9,13 @@ import java.util.Objects;
 @Getter
 @RequiredArgsConstructor
 public enum Color {
-	ORANGE("orange"),
-	WHITE("white"),
-	BROWN("brown");
+	ORANGE("orange", 1),
+	WHITE("white", 2),
+	BROWN("brown", 3);
 
 	private final String value;
+
+	private final Integer priority;
 
 	public static Color fromValue(String value) {
 		return Arrays.stream(Color.values())

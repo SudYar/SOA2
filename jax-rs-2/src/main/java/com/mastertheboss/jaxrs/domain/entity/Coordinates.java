@@ -5,13 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -35,5 +29,5 @@ public class Coordinates {
 	private Float x; //Поле не может быть null
 
 	@Column(length = 40)
-	private double y; //Значение поля должно быть больше -796
+	private Long y; //Значение поля должно быть больше -796
 }
