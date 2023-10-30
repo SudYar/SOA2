@@ -63,6 +63,11 @@ public class TeamEndpoint {
 		return Response.status(201).build();
 	}
 
+//	@POST
+//	@Path("{team-id}/move-to-cave/{cave-id})
+//	public Response move(@PathParam("team-id") Long teamId, @PathParam("start-cave-id") Long caveId){
+//
+//	}
 	@PUT
 	public Response update(Person person) {
 //		personRepository.updatePerson(person);

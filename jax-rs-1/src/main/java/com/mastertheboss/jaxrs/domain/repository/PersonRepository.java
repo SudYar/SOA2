@@ -38,7 +38,6 @@ public class PersonRepository {
 		personToUpdate.setHeight(person.getHeight());
 		personToUpdate.setPassportID(person.getPassportID());
 		personToUpdate.setHairColor(person.getHairColor());
-		entityManager.refresh(personToUpdate);
 	}
 
 	@Transactional
