@@ -1,9 +1,11 @@
 package com.mastertheboss.jaxrs.domain.repository;
 
 
+import com.mastertheboss.jaxrs.domain.entity.Cave;
 import com.mastertheboss.jaxrs.domain.entity.Team;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -14,6 +16,8 @@ import java.util.List;
 @ApplicationScoped
 public class TeamRepository {
 
+	@Inject
+	CaveRepository caveRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -23,9 +27,10 @@ public class TeamRepository {
 	}
 
 	public Team findTeamById(Long id) {
+		if (id == null) return null;
 		Team team = entityManager.find(Team.class, id);
 		if (team == null) {
-			throw new WebApplicationException("Team with id of " + id + " does not exist.", 404);
+			throw new WebApplicationException("Группа с id " + id + " не найдена.", 404);
 		}
 		return team;
 	}
@@ -36,7 +41,17 @@ public class TeamRepository {
 		teamToUpdate.setName(team.getName());
 		teamToUpdate.setSize(team.getSize());
 		teamToUpdate.setCave(team.getCave());
-		entityManager.refresh(teamToUpdate);
+	}
+
+	@Transactional
+	public void changeCave(Long teamId, Long caveId) {
+		Team team = findTeamById(teamId);
+		if (team == null)
+			throw new WebApplicationException("Группа с id " + teamId + " не найдена.", 404);
+		Cave newCave = caveRepository.findCaveById(caveId);
+		if (newCave == null )
+			throw new WebApplicationException("Пещера с id " + caveId + " не найдена.", 404);
+		team.setCave(newCave);
 	}
 
 	@Transactional

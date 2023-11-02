@@ -22,9 +22,10 @@ public class CaveRepository {
 	}
 
 	public Cave findCaveById(Long id) {
+		if (id == null) return null;
 		Cave cave = entityManager.find(Cave.class, id);
 		if (cave == null) {
-			throw new WebApplicationException("Cave with id of " + id + " does not exist.", 404);
+			throw new WebApplicationException("Пещера с id " + id + " не найдена.", 404);
 		}
 		return cave;
 	}
