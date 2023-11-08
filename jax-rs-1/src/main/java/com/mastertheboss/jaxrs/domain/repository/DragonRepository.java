@@ -47,6 +47,7 @@ public class DragonRepository {
 		dragonToUpdate.setName(dragonDTO.getName());
 		dragonToUpdate.setCoordinates(dragonDTO.getCoordinates());
 		dragonToUpdate.setAge(dragonDTO.getAge());
+		dragonToUpdate.setType(dragonDTO.getType());
 		dragonToUpdate.setColor(dragonDTO.getColor());
 		dragonToUpdate.setCharacter(dragonDTO.getCharacter());
 		dragonToUpdate.setKiller(killer);

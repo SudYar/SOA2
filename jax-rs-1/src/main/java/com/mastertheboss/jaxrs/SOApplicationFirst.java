@@ -5,7 +5,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 
-@ApplicationPath("/api/v1")
+@ApplicationPath("/dragon")
 public class SOApplicationFirst extends Application {
 	/* class body intentionally left blank */
 }

@@ -86,7 +86,7 @@ public class DragonEndpoint {
 		return Response.status(204).build();
 	}
 
-	@GET
+	@POST
 	@Path("delete-killed")
 	public Response deleteKilled(Person person) {
 		Person killer;
@@ -107,7 +107,7 @@ public class DragonEndpoint {
 		return Response.status(204).build();
 	}
 
-	@GET
+	@POST
 	@Path("delete-by-type")
 	public Response deleteByType(DragonTypeDTO dragonTypeDTO) {
 		List<Dragon> allDragons = dragonRepository.findAll();
