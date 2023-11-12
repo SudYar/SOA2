@@ -48,12 +48,12 @@ curl --request GET \
 
 ```shell
 curl --request GET \
---url http://localhost:8080/jax-rs-1/api/v1/persons/1
+--url https://localhost:21570/jax-rs-1/dragon/persons/1
 ```
 
 ```shell
 curl --request PUT \
---url http://localhost:8080/jax-rs-1/api/v1/dragons \
+--url https://localhost:21570/jax-rs-1/dragon/dragons \
 --header 'Content-Type: application/json' \
 --data '{
 "id" : "2",
@@ -72,7 +72,7 @@ curl --request PUT \
 
 ```shell
 curl --request PUT \
---url http://localhost:8080/jax-rs-1/api/v1/persons \
+--url https://localhost:21570/jax-rs-1/dragon/persons \
 --header 'Content-Type: application/json' \
 --data '{
 "id" : "1",
@@ -86,19 +86,19 @@ curl --request PUT \
 
 ```shell
 curl --request DELETE \
---url http://localhost:8080/jax-rs-1/api/v1/dragons/4
+--url https://localhost:21570/jax-rs-1/dragon/dragons/4
 ```
 
 ```shell
 curl --request DELETE \
---url http://localhost:8080/jax-rs-1/api/v1/persons/2
+--url https://localhost:21570/jax-rs-1/dragon/persons/2
 ```
 
 -----------------------------------------------------------------------
 
 ```shell
 curl --request GET \
---url http://localhost:8080/jax-rs-1/api/v1/dragons/delete-killed \
+--url https://localhost:21570/jax-rs-1/dragon/dragons/delete-killed \
 --header 'Content-Type: application/json' \
 --data '{
 "id" : "1"
@@ -107,7 +107,7 @@ curl --request GET \
 
 ```shell
 curl --request GET \
---url http://localhost:8080/jax-rs-1/api/v1/dragons/delete-by-type \
+--url https://localhost:21570/jax-rs-1/dragon/dragons/delete-by-type \
 --header 'Content-Type: application/json' \
 --data '{
 "value" : "AIR"
@@ -116,5 +116,5 @@ curl --request GET \
 
 ```shell
 curl --request GET \
---url http://localhost:8080/jax-rs-1/api/v1/dragons/get-by-max-color
+--url https://localhost:21570/jax-rs-1/dragon/dragons/get-by-max-color
 ```

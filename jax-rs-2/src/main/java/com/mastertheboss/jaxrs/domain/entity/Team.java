@@ -24,7 +24,7 @@ public class Team {
     @Column(nullable = false)
     private Short size;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "cave_id", referencedColumnName = "id")
     private Cave cave;
 

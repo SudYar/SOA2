@@ -82,4 +82,11 @@ public class TeamEndpoint {
 		return Response.status(204).build();
 	}
 
+	@DELETE
+	@Path("deleteAll")
+	public Response deleteAll() {
+		teamRepository.deleteAll();
+		return Response.status(204).build();
+	}
+
 }

@@ -48,4 +48,10 @@ public class CaveRepository {
 		entityManager.remove(c);
 	}
 
+	@Transactional
+	public void deleteAll(){
+		List<Cave> caves = this.findAll();
+		for (Cave cave: caves) entityManager.remove(cave);
+	}
+
 }

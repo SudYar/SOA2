@@ -65,5 +65,11 @@ public class TeamRepository {
 		entityManager.remove(team);
 	}
 
+	@Transactional
+	public void deleteAll(){
+		List<Team> allTeams = this.findAll();
+		for (Team team : allTeams) entityManager.remove(team);
+	}
+
 
 }
