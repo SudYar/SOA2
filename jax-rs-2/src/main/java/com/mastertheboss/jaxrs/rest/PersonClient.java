@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 public class PersonClient {
     private Client client;
-    private final String firstServiceUrl = "https://se.ifmo.ru:21570/jax-rs-1/dragon";
+    private final String firstServiceUrl = "https://localhost:21570/jax-rs-1/dragon";
 
     public Person getPersonById(Long id){
         String url = firstServiceUrl + "/persons/" + id.toString();
