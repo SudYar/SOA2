@@ -1,11 +1,17 @@
 package com.mastertheboss.jaxrs;
 
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
 
-
+@SpringBootApplication
 @ApplicationPath("/dragon")
-public class SOApplicationFirst extends Application {
-	/* class body intentionally left blank */
+public class SOApplicationFirst {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SOApplicationFirst.class, args);
+	}
+
 }

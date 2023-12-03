@@ -1,5 +1,6 @@
 package com.mastertheboss.jaxrs.rest;
 
+import com.mastertheboss.jaxrs.DragonService;
 import com.mastertheboss.jaxrs.domain.dto.DragonDTO;
 import com.mastertheboss.jaxrs.domain.dto.DragonTypeDTO;
 import com.mastertheboss.jaxrs.domain.entity.Dragon;
@@ -7,122 +8,121 @@ import com.mastertheboss.jaxrs.domain.entity.DragonType;
 import com.mastertheboss.jaxrs.domain.entity.Person;
 import com.mastertheboss.jaxrs.domain.repository.DragonRepository;
 import com.mastertheboss.jaxrs.domain.repository.PersonRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
-@Path("dragons")
-@ApplicationScoped
-@Produces("application/json")
-@Consumes("application/json")
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(value = "jax-rs-1/dragon/dragons", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DragonEndpoint {
 
-	@Inject
-	DragonRepository dragonRepository;
+	private final DragonRepository dragonRepository;
+	private final PersonRepository personRepository;
+	private final DragonService dragonService;
 
-	@Inject
-	PersonRepository personRepository;
 
-	@GET
+	@GetMapping(value = "")
 	public List<Dragon> getAll() {
 		return dragonRepository.findAll();
 	}
 
-	@GET
-	@Path("{id}")
-	public Dragon getDragonById(@PathParam("id") Integer id) {
-		return dragonRepository.findDragonById(id);
+
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Dragon> getDragonById(@PathVariable("id") Integer id) {
+		var dragon = dragonRepository.findById(id);
+		return dragon.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
-	@POST
-	public Response create(DragonDTO dragonDTO) {
-		Person killer = null;
+	@PostMapping(value = "")
+	public ResponseEntity<?> create(@RequestBody DragonDTO dragonDTO) {
+		Optional<Person> killer = Optional.empty();
 		if (dragonDTO.getKiller() != null) {
-			killer = personRepository.findPersonById(dragonDTO.getKiller());
+			killer = personRepository.findById(dragonDTO.getKiller());
+			if (killer.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		}
 		Dragon dragon = Dragon.builder()
 				.name(dragonDTO.getName())
 				.age(dragonDTO.getAge())
 				.color(dragonDTO.getColor())
-				.killer(killer)
+				.killer(killer.orElse(null))
 				.coordinates(dragonDTO.getCoordinates())
 				.type(dragonDTO.getType())
 				.character(dragonDTO.getCharacter()).build();
-		dragonRepository.createDragon(dragon);
-		return Response.status(201).build();
+		dragonRepository.save(dragon);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@PUT
-	public Response update(DragonDTO dragonDTO) {
-		Dragon dragon;
+	@PutMapping(value = "")
+	public ResponseEntity<?> update(@RequestBody DragonDTO dragonDTO) {
+		Optional<Dragon> dragon;
 		if (dragonDTO.getId() != null) {
-			dragon = dragonRepository.findDragonById(dragonDTO.getId());
+			dragon = dragonRepository.findById(dragonDTO.getId());
+			if (dragon.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		} else {
-			throw new WebApplicationException("ID is Empty", 400);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		if (dragon == null) {
-			throw new WebApplicationException("Wrong REQUEST", 400);
-		}
-		dragonRepository.updateDragon(dragonDTO);
-		return Response.status(204).build();
+
+		return dragonService.updateDragon(dragon.get(), dragonDTO);
 	}
 
-	@DELETE
-	@Path("{id}")
-	public Response delete(@PathParam("id") Integer dragonId) {
-		dragonRepository.deleteDragon(dragonId);
-		return Response.status(204).build();
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") Integer dragonId) {
+		dragonRepository.deleteById(dragonId);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@POST
-	@Path("delete-killed")
-	public Response deleteKilled(Person person) {
-		Person killer;
+	@PostMapping(value = "/delete-killed")
+	public ResponseEntity<?> deleteKilled(@RequestBody Person person) {
 		if (person.getId() != null) {
-			killer = personRepository.findPersonById(person.getId());
+			var personOpt = personRepository.findById(person.getId());
+			if (personOpt.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		} else {
-			throw new WebApplicationException("ID is Empty", 400);
-		}
-		if (killer == null) {
-			throw new WebApplicationException("Wrong REQUEST", 400);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		List<Dragon> allDragons = dragonRepository.findAll();
 		for (Dragon dragon : allDragons) {
 			if (dragon.getKiller() != null && Objects.equals(dragon.getKiller().getId(), person.getId())) {
-				dragonRepository.deleteDragon(dragon.getId());
+				dragonRepository.deleteById(dragon.getId());
 			}
 		}
-		return Response.status(204).build();
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@POST
-	@Path("delete-by-type")
-	public Response deleteByType(DragonTypeDTO dragonTypeDTO) {
+	@PostMapping(value = "/delete-by-type")
+	public ResponseEntity<?> deleteByType(@RequestBody DragonTypeDTO dragonTypeDTO) {
 		List<Dragon> allDragons = dragonRepository.findAll();
 		for (Dragon dragon : allDragons) {
 			if (dragon.getType() != null &&
 					Objects.equals(dragon.getType(), DragonType.fromValue(dragonTypeDTO.getValue()))) {
-				dragonRepository.deleteDragon(dragon.getId());
+				dragonRepository.deleteById(dragon.getId());
 			}
 		}
-		return Response.status(204).build();
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@GET
-	@Path("get-by-max-color")
-	public Dragon getByMaxColor() {
+	@GetMapping("/get-by-max-color")
+	public ResponseEntity<Dragon> getByMaxColor() {
 		List<Dragon> allDragons = dragonRepository.findAll();
 		Dragon maxColorDragon = null;
 		for (Dragon dragon : allDragons) {
@@ -135,9 +135,9 @@ public class DragonEndpoint {
 			}
 		}
 		if (maxColorDragon == null) {
-			throw new WebApplicationException("Dragon not found", 404);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return maxColorDragon;
+		return new ResponseEntity<>(maxColorDragon, HttpStatus.OK);
 	}
 
 }

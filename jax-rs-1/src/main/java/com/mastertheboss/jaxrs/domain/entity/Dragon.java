@@ -29,8 +29,6 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedQuery(name = "Dragons.findAll",
-		query = "SELECT c FROM Dragon c ORDER BY c.id")
 public class Dragon {
 
 	@Id

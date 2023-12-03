@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import java.util.Date;
 
@@ -22,8 +21,6 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedQuery(name = "Persons.findAll",
-		query = "SELECT c FROM Person c ORDER BY c.id")
 public class Person {
 
 	@Id

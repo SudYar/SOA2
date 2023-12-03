@@ -8,13 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 
 
 @Entity
-@NamedQuery(name = "Customers.findAll",
-		query = "SELECT c FROM Customer c ORDER BY c.id")
 @Getter
 @Setter
 public class Customer {

@@ -1,0 +1,29 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+#    properties:
+#      javax:
+#        persistence:
+#          schema-generation:
+#            scripts:
+#              action: create
+#              create-target: create.sql
+#              create-source: metadata
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: app_restrictions
+    password: app_restrictions
+    url: jdbc:postgresql://localhost:5432/app_soa
+
+server:
+  port: 21570
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:zetcode.p12
+    key-store-password: 123456
+    key-alias: mycert
+    enabled: true
+    key-store-provider: SUN
