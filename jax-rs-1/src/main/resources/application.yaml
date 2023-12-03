@@ -18,6 +18,9 @@ spring:
     password: app_restrictions
     url: jdbc:postgresql://localhost:5432/app_soa
 
+http:
+  port: 8080
+
 server:
   port: 21570
   ssl:
