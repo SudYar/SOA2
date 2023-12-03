@@ -1,10 +1,10 @@
 package com.mastertheboss.jaxrs;
 
-import com.mastertheboss.jaxrs.domain.dto.DragonDTO;
-import com.mastertheboss.jaxrs.domain.entity.Dragon;
-import com.mastertheboss.jaxrs.domain.entity.Person;
-import com.mastertheboss.jaxrs.domain.repository.DragonRepository;
-import com.mastertheboss.jaxrs.domain.repository.PersonRepository;
+import com.mastertheboss.jaxrs.backend.domain.dto.DragonDTO;
+import com.mastertheboss.jaxrs.backend.domain.entity.Dragon;
+import com.mastertheboss.jaxrs.backend.domain.entity.Person;
+import com.mastertheboss.jaxrs.backend.domain.repository.DragonRepository;
+import com.mastertheboss.jaxrs.backend.domain.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
