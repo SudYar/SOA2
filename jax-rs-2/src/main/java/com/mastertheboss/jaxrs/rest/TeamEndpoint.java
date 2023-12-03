@@ -32,8 +32,7 @@ public class TeamEndpoint {
 
 	@GET
 	public List<Team> getAll() {
-		List<Team> result = teamRepository.findAll();
-		return result;
+		return teamRepository.findAll();
 	}
 
 	@POST
@@ -46,10 +45,11 @@ public class TeamEndpoint {
 			cave = caveRepository.findCaveById(caveId);
 		}
 		List<Person> personArrayList = new ArrayList<>();
-		if (personsId.length > teamSize) throw new WebApplicationException("Людей больше чем максимальная величина группы", 401);
-		for (int i= 0; i < personsId.length; i++){
-			Person person = personClient.getPersonById(personsId[i]);
-			if (person == null) throw new WebApplicationException("Человек с id " + personsId[i] + " не найден", 404);
+		if (personsId.length > teamSize)
+			throw new WebApplicationException("Людей больше чем максимальная величина группы", 401);
+		for (Long aLong : personsId) {
+			Person person = personClient.getPersonById(aLong);
+			if (person == null) throw new WebApplicationException("Человек с id " + aLong + " не найден", 404);
 			personArrayList.add(person);
 		}
 		Team team = Team.builder()

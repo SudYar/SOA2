@@ -9,25 +9,25 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 public class PersonClient {
-    private Client client;
-    private final String firstServiceUrl = "https://localhost:21570/jax-rs-1/dragon";
 
-    public Person getPersonById(Long id){
-        String url = firstServiceUrl + "/persons/" + id.toString();
-        try{
-            client = ClientBuilder.newClient();
+	public static final String JAX_RS_1_DRAGON = "https://localhost:21570/jax-rs-1/dragon";
 
-            Response response = client.target(url).request(MediaType.APPLICATION_JSON_TYPE).get();
+	public Person getPersonById(Long id) {
+		String url = JAX_RS_1_DRAGON + "/persons/" + id.toString();
+		try {
+			Client client = ClientBuilder.newClient();
 
-            Person person = response.readEntity(Person.class);
+			Response response = client.target(url).request(MediaType.APPLICATION_JSON_TYPE).get();
 
-            client.close();
+			Person person = response.readEntity(Person.class);
 
-            return person;
-        }catch (ProcessingException e){
-            e.printStackTrace();
-            return null;
-        }
+			client.close();
 
-    }
+			return person;
+		} catch (ProcessingException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
 }

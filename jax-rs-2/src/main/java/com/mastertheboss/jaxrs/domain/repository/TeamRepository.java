@@ -27,7 +27,9 @@ public class TeamRepository {
 	}
 
 	public Team findTeamById(Long id) {
-		if (id == null) return null;
+		if (id == null) {
+			return null;
+		}
 		Team team = entityManager.find(Team.class, id);
 		if (team == null) {
 			throw new WebApplicationException("Группа с id " + id + " не найдена.", 404);
@@ -46,11 +48,13 @@ public class TeamRepository {
 	@Transactional
 	public void changeCave(Long teamId, Long caveId) {
 		Team team = findTeamById(teamId);
-		if (team == null)
+		if (team == null) {
 			throw new WebApplicationException("Группа с id " + teamId + " не найдена.", 404);
+		}
 		Cave newCave = caveRepository.findCaveById(caveId);
-		if (newCave == null )
+		if (newCave == null) {
 			throw new WebApplicationException("Пещера с id " + caveId + " не найдена.", 404);
+		}
 		team.setCave(newCave);
 	}
 
@@ -66,9 +70,11 @@ public class TeamRepository {
 	}
 
 	@Transactional
-	public void deleteAll(){
+	public void deleteAll() {
 		List<Team> allTeams = this.findAll();
-		for (Team team : allTeams) entityManager.remove(team);
+		for (Team team : allTeams) {
+			entityManager.remove(team);
+		}
 	}
 
 

@@ -22,7 +22,9 @@ public class CaveRepository {
 	}
 
 	public Cave findCaveById(Long id) {
-		if (id == null) return null;
+		if (id == null) {
+			return null;
+		}
 		Cave cave = entityManager.find(Cave.class, id);
 		if (cave == null) {
 			throw new WebApplicationException("Пещера с id " + id + " не найдена.", 404);
@@ -49,9 +51,11 @@ public class CaveRepository {
 	}
 
 	@Transactional
-	public void deleteAll(){
+	public void deleteAll() {
 		List<Cave> caves = this.findAll();
-		for (Cave cave: caves) entityManager.remove(cave);
+		for (Cave cave : caves) {
+			entityManager.remove(cave);
+		}
 	}
 
 }
