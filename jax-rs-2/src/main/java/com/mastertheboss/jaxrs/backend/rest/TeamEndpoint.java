@@ -7,12 +7,20 @@ import com.mastertheboss.jaxrs.backend.domain.entity.Person;
 import com.mastertheboss.jaxrs.backend.domain.entity.Team;
 import com.mastertheboss.jaxrs.backend.domain.repository.CaveRepository;
 import com.mastertheboss.jaxrs.backend.domain.repository.TeamRepository;
-import com.mastertheboss.jaxrs.ejb.client.PersonClient;
 import com.mastertheboss.jaxrs.ejb.service.PersonService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,15 +51,18 @@ public class TeamEndpoint {
 						   @PathParam("team-size") Short teamSize, @PathParam("start-cave-id") Long caveId,
 						   Long[] personsId) {
 		Cave cave = null;
-		if (caveId!= null) {
+		if (caveId != null) {
 			cave = caveRepository.findCaveById(caveId);
 		}
 		List<Person> personArrayList = new ArrayList<>();
-		if (personsId.length > teamSize)
+		if (personsId.length > teamSize) {
 			throw new WebApplicationException("Людей больше чем максимальная величина группы", 401);
+		}
 		for (Long aLong : personsId) {
 			Person person = personService.getPersonById(aLong);
-			if (person == null) throw new WebApplicationException("Человек с id " + aLong + " не найден", 404);
+			if (person == null) {
+				throw new WebApplicationException("Человек с id " + aLong + " не найден", 404);
+			}
 			personArrayList.add(person);
 		}
 		Team team = Team.builder()
@@ -59,7 +70,7 @@ public class TeamEndpoint {
 				.name(teamName)
 				.size(teamSize)
 				.cave(cave)
-				.personList(personArrayList.isEmpty()? null:personArrayList)
+				.personList(personArrayList.isEmpty() ? null : personArrayList)
 				.build();
 		teamRepository.createTeam(team);
 		return Response.status(201).build();

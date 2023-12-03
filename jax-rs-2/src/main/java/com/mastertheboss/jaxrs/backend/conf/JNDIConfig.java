@@ -15,7 +15,7 @@ public class JNDIConfig {
 		jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
 		jndiProps.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 		jndiProps.put("jboss.naming.client.ejb.context", true);
-		jndiProps.put(Context.PROVIDER_URL, "http-remoting://localhost:21577");
+		jndiProps.put(Context.PROVIDER_URL, "http-remoting://localhost:43470");
 		try {
 			final Context context = new InitialContext(jndiProps);
 			return  (PersonService) context

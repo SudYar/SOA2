@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
@@ -21,7 +22,9 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Person {
+public class Person implements Serializable {
+
+	private static final long SerialVersionUID = 101L;
 
 	@Id
 	@SequenceGenerator(

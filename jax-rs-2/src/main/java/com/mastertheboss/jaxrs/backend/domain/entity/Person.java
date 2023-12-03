@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
@@ -18,7 +19,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NamedQuery(name = "Persons.findAll",
 		query = "SELECT c FROM Person c ORDER BY c.id")
-public class Person {
+public class Person implements Serializable {
+
+	private static final long SerialVersionUID = 101L;
 
 	@Id
 	@SequenceGenerator(

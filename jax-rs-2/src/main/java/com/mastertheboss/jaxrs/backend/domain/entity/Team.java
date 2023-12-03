@@ -24,11 +24,11 @@ public class Team {
     @Column(nullable = false)
     private Short size;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cave_id", referencedColumnName = "id")
     private Cave cave;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "persons_id", referencedColumnName = "id" )
     private List<Person> personList;
 
