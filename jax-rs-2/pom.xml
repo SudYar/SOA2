@@ -7,6 +7,8 @@
 	<artifactId>jax-rs-2</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
+	<name>second-service</name>
+	<description>second-service</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>

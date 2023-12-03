@@ -17,16 +17,40 @@ spring:
     username: app_restrictions
     password: app_restrictions
     url: jdbc:postgresql://localhost:5432/app_soa
+  application:
+    name: first-service
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      config:
+        enabled: true
+        import-check:
+          enabled: false
+      discovery:
+        health-check-path: /jax-rs-1/dragon/dragons
+        health-check-interval: 8s
+        health-check-tls-skip-verify: true
+        scheme: https
 
 http:
-  port: 8080
+  port: 8090
 
 server:
-  port: 21570
+  port: 21580
   ssl:
-    key-store-type: PKCS12
-    key-store: classpath:zetcode.p12
-    key-store-password: 123456
-    key-alias: mycert
+#    key-store-type: PKCS12
+#    key-store: classpath:zetcode.p12
+#    key-store-password: 123456
+#    key-alias: mycert
+#    enabled: true
+#    key-store-provider: SUN
+    key-store-type: JKS
+    key-store: ./ssl/server.keystore
+    key-store-password: secret
+    key-alias: localhost
     enabled: true
-    key-store-provider: SUN
+
+trust:
+  store: ./ssl/server.truststore
+  store.password: secret

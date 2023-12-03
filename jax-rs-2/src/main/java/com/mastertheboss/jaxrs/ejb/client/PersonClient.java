@@ -21,19 +21,14 @@ import java.security.NoSuchAlgorithmException;
 public class PersonClient {
 
 	public static final String JAX_RS_1_DRAGON = "https://localhost:21570/jax-rs-1/dragon";
-	HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-
-		public boolean verify(String arg0, SSLSession arg1) {
-			// TODO Auto-generated method stub
-			return true;
-		}
-	};
+	HostnameVerifier hostnameVerifier = (arg0, arg1) -> true;
 	public Person getPersonById(Long id) {
 		String url = JAX_RS_1_DRAGON + "/persons/" + id.toString();
 		try {
 			SSLContext sslContext = SSLContext.getInstance("ssl");
 			sslContext.init(null, new TrustManager[] {new CustomTrustManager()}, null);
-			Client client = ClientBuilder.newBuilder().hostnameVerifier(hostnameVerifier).sslContext(sslContext).build();
+			Client client = ClientBuilder.newBuilder()
+					.hostnameVerifier(hostnameVerifier).sslContext(sslContext).build();
 
 			Response response = client.target(url).request(MediaType.APPLICATION_JSON_TYPE).get();
 
