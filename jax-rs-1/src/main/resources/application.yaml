@@ -34,10 +34,10 @@ spring:
         scheme: https
 
 http:
-  port: 8090
+  port: 21582
 
 server:
-  port: 21580
+  port: 21572
   ssl:
 #    key-store-type: PKCS12
 #    key-store: classpath:zetcode.p12
