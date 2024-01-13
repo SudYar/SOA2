@@ -37,7 +37,6 @@ public class Person implements Serializable {
 
 	@Column(length = 40)
 	@JsonSerialize(using = DateSerializer.class)
-	@JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
 	private Date birthday; //Поле может быть null
 
 	@Column(length = 40, nullable = false)

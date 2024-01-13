@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Data
 @Entity
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NamedQuery(name = "Caves.findAll",
 		query = "SELECT c FROM Cave c ORDER BY c.id")
+@XmlRootElement(name = "cave")
 public class Cave {
 
 	@Id

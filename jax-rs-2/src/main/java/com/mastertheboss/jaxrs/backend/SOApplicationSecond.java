@@ -1,11 +1,17 @@
 package com.mastertheboss.jaxrs.backend;
 
 
-import javax.ws.rs.ApplicationPath;
+import com.mastertheboss.jaxrs.backend.soap.SoapWebService;
+
 import javax.ws.rs.core.Application;
+import javax.xml.ws.Endpoint;
 
 
-@ApplicationPath("/killer")
 public class SOApplicationSecond extends Application {
-	/* class body intentionally left blank */
+
+	public static void main(String[] args) {
+		Endpoint.publish("http://localhost:21790/killer", new SoapWebService());
+		System.out.println("SoapWebService Started!");
+	}
+
 }

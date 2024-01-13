@@ -23,7 +23,7 @@ public class DragonService {
 		Optional<Person> killer = Optional.empty();
 		if (dragonDTO.getKiller() != null) {
 			killer = personRepository.findById(dragonDTO.getKiller());
-			if (killer.isEmpty()) {
+			if (!killer.isPresent()) {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 		}

@@ -3,6 +3,7 @@ package com.mastertheboss.jaxrs.backend.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @Data
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NamedQuery(name = "Teams.findAll",
         query = "SELECT t FROM Team t ORDER BY t.id")
+@XmlRootElement(name = "team")
 public class Team {
     @Id
     @Column(name = "id", nullable = false, unique = true)

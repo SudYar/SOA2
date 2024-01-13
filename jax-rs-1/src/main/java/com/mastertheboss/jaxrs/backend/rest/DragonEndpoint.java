@@ -45,7 +45,7 @@ public class DragonEndpoint {
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Dragon> getDragonById(@PathVariable("id") Integer id) {
-		var dragon = dragonRepository.findById(id);
+		Optional<Dragon> dragon = dragonRepository.findById(id);
 		return dragon.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
@@ -55,7 +55,7 @@ public class DragonEndpoint {
 		Optional<Person> killer = Optional.empty();
 		if (dragonDTO.getKiller() != null) {
 			killer = personRepository.findById(dragonDTO.getKiller());
-			if (killer.isEmpty()) {
+			if (!killer.isPresent()) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
 		}
@@ -76,7 +76,7 @@ public class DragonEndpoint {
 		Optional<Dragon> dragon;
 		if (dragonDTO.getId() != null) {
 			dragon = dragonRepository.findById(dragonDTO.getId());
-			if (dragon.isEmpty()) {
+			if (!dragon.isPresent()) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
 		} else {
@@ -95,8 +95,8 @@ public class DragonEndpoint {
 	@PostMapping(value = "/delete-killed")
 	public ResponseEntity<?> deleteKilled(@RequestBody Person person) {
 		if (person.getId() != null) {
-			var personOpt = personRepository.findById(person.getId());
-			if (personOpt.isEmpty()) {
+			Optional<Person> personOpt = personRepository.findById(person.getId());
+			if (!personOpt.isPresent()) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
 		} else {

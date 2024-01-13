@@ -68,7 +68,7 @@ public class PrimaryDSConfiguration {
 		em.setPackagesToScan("com.mastertheboss.jaxrs.backend.domain.entity");
 		em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
-		var properties = new Properties();
+		Properties properties = new Properties();
 		properties.putAll(jpaProperties.getProperties());
 		em.setJpaProperties(properties);
 

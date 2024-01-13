@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -39,7 +40,7 @@ public class PersonEndpoint {
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getPersonById(@PathVariable("id") Long id) {
-		var person = personRepository.findById(id);
+		Optional<Person> person = personRepository.findById(id);
 		return person.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
