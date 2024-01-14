@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	  xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	  xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config"
+						  doc:id="82f79b1f-d1c2-420e-b3fe-0026b6d03d48">
+		<http:listener-connection host="localhost" port="21573"/>
+	</http:listener-config>
+	<wsc:config name="Web_Service_Consumer_Config" doc:name="Web Service Consumer Config"
+				doc:id="c3e5287c-1b05-4845-ba8a-ded2855ca862">
+		<wsc:connection wsdlLocation="http://localhost:21584/jax-rs-2/SoapWebService?wsdl"
+						service="SoapWebServiceService" port="SoapWebServicePort"
+						address="http://localhost:21584/jax-rs-2/SoapWebService"/>
+	</wsc:config>
+	<flow name="getTeams" doc:id="5b48a657-a481-408a-a315-eba3a8518186">
+		<http:listener doc:name="Listener" doc:id="0fb4921f-a7f3-416f-b557-cd725dd20b35"
+					   config-ref="HTTP_Listener_config" path="jax-rs-2/killer/teams" allowedMethods="GET">
+			<http:response>
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Method" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+			</http:response>
+		</http:listener>
+		<ee:transform doc:name="Transform Message" doc:id="563fe6b6-cc8f-4069-ac08-6385f955669e">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://soap.backend.jaxrs.mastertheboss.com/
+---
+{
+	ns0#getAllTeams: null
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume operation="getAllTeams" doc:name="Consume" doc:id="a3f792bb-e0e0-416d-b90e-d14c2aab498d"
+					 config-ref="Web_Service_Consumer_Config"/>
+		<logger level="INFO" doc:name="Logger" doc:id="f7d83cb6-c599-4124-8908-977b95000096" message="GET_TEAMS"/>
+		<ee:transform doc:name="Transform Message" doc:id="06478d85-1c6e-40bb-ba45-81ee145ae58c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+ns ns0 http://soap.backend.jaxrs.mastertheboss.com/
+---
+
+(payload.body.ns0#getAllTeamsResponse.return.*teamList map {
+	id : $.id,
+	cave : $.cave,
+	name : $.name,
+	size : $.size,
+	personList : $.*personList map {
+		id : $.id,
+		name : $.name,
+		birthday : $.birthday,
+		passportID : $.passportID,
+		height : $.height,
+		hairColor : $.hairColor
+	}
+})
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="createTeam" doc:id="fa76c22d-a039-4223-9b35-170daac790c1">
+		<http:listener doc:name="Listener" doc:id="492670fb-8c55-48a1-824a-a901e831d765"
+					   config-ref="HTTP_Listener_config"
+					   path="jax-rs-2/killer/teams/create/{team_id}/{team_name}/{cave_id}/{team_size}"
+					   allowedMethods="POST">
+			<http:response>
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]>
+				</http:headers>
+			</http:response>
+		</http:listener>
+		<ee:transform doc:name="Transform Message" doc:id="1426b862-76d9-4c61-a827-3f42f02f8408">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output text/xml skipNullOn="everywhere"
+ns ns0 http://soap.backend.jaxrs.mastertheboss.com/
+---
+{
+	ns0#createTeam: {
+		"team-id": attributes.uriParams.team_id,
+		"team-name": attributes.uriParams.team_name,
+		"team-size": attributes.uriParams.team_size,
+		"start-cave-id": attributes.uriParams.cave_id,
+		"persons-ids": payload.formData
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="9e9f91b1-1820-4c1a-8952-7a533ac9990d"
+					 config-ref="Web_Service_Consumer_Config" operation="createTeam"/>
+		<logger level="INFO" doc:name="Logger" doc:id="bfdc9ba5-b010-48ec-b398-9959b7ccd5cc"
+				message="#[ns ns0 http://soap.backend.jaxrs.mastertheboss.com/&#10;---&#10;payload.body.ns0#createTeamResponse.return.status]"/>
+		<ee:transform doc:name="Transform Message" doc:id="54561295-ba27-4b1c-a63d-9dfe48df9673">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+ns ns0 http://soap.backend.jaxrs.mastertheboss.com/
+
+output application/json
+---
+payload.body.ns0#createTeamResponse.return.status]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="createTeamOptions" doc:id="327a7ff9-87a2-414e-8bf8-9341200c8244">
+		<http:listener doc:name="Listener" doc:id="87e4bb54-ed3e-4db6-8f96-f938c1337893"
+					   config-ref="HTTP_Listener_config" allowedMethods="OPTIONS"
+					   path="jax-rs-2/killer/teams/create/{team_id}/{team_name}/{cave_id}/{team_size}">
+			<http:response>
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+			</http:response>
+		</http:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="80b30477-a76c-4f91-84d1-03c8ae523c73" message="TEAMS_OPTIONS"/>
+	</flow>
+	<flow name="getCaves" doc:id="048507dc-a283-465c-b8e2-f094b975b008">
+		<http:listener doc:name="Listener" doc:id="566da7cb-64fd-4bdb-b120-d494f7de679e"
+					   config-ref="HTTP_Listener_config" path="jax-rs-2/killer/caves" allowedMethods="GET">
+			<http:response>
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+			</http:response>
+		</http:listener>
+		<ee:transform doc:name="Transform Message" doc:id="2ebaa29c-328d-4941-b092-6db1a870caf3">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://soap.backend.jaxrs.mastertheboss.com/
+---
+{
+	ns0#getAllCaves: null
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="9ebc2fa1-a778-49a7-8077-577040f31dbd"
+					 config-ref="Web_Service_Consumer_Config" operation="getAllCaves"/>
+		<logger level="INFO" doc:name="Logger" doc:id="469dc7dd-3d6e-440f-b22f-7a4d0261063c" message="GET_CAVES"/>
+		<ee:transform doc:name="Transform Message" doc:id="0322c389-d60d-4c07-9350-316b26f8db72">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+ns ns0 http://soap.backend.jaxrs.mastertheboss.com/
+---
+
+(payload.body.ns0#getAllCavesResponse.return.*caveList map {
+	id : $.id,
+	coordinates : $.coordinates
+})
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="createCave" doc:id="e31a291f-aa1d-4610-8c3e-23578e4aa26a">
+		<http:listener doc:name="Listener" doc:id="4abd439d-dd75-44e9-a1a5-37f8973b03ec"
+					   config-ref="HTTP_Listener_config" path="jax-rs-2/killer/caves" allowedMethods="POST">
+			<http:response>
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+			</http:response>
+		</http:listener>
+		<ee:transform doc:name="Transform Message" doc:id="107c243a-e4de-4918-908f-4871193a1741">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://soap.backend.jaxrs.mastertheboss.com/
+---
+{
+	ns0#createCave: {
+		cave: {
+			coordinates: {
+				x: payload.coordinates.x,
+				y: payload.coordinates.y
+			}
+		}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="685e239c-94ae-48f8-8254-b60704f388a5"
+					 config-ref="Web_Service_Consumer_Config" operation="createCave"/>
+		<logger level="INFO" doc:name="Logger" doc:id="dcc71ba5-c993-4ef4-a52c-aa0ed77054d1" message="CREATE_CAVE"/>
+		<ee:transform doc:name="Transform Message" doc:id="be3735c0-6370-4106-8c68-456049119281">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns ns0 http://soap.backend.jaxrs.mastertheboss.com/
+---
+payload.body.ns0#createCaveResponse.return.status]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="createCaveOptions" doc:id="e16a62f0-0444-4c8c-b0f0-3f63b627905a">
+		<http:listener doc:name="Listener" doc:id="f73e3a8a-2431-4d54-a05d-ca2a9facb08f"
+					   config-ref="HTTP_Listener_config" path="jax-rs-2/killer/caves" allowedMethods="OPTIONS">
+			<http:response>
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+			</http:response>
+		</http:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="f8db8615-191f-4ed5-a8a1-5cf4800f5d2e" message="CAVES_OPTIONS"/>
+	</flow>
+	<flow name="MoveTeamToCave" doc:id="442d1e77-f08e-46cb-894d-248dd4a7fe01">
+		<http:listener doc:name="Listener" doc:id="73167cfb-9af4-4761-b3f4-1bfb7cc1e0f8"
+					   config-ref="HTTP_Listener_config" path="jax-rs-2/killer/teams/{team_id}/move-to-cave/{cave_id}"
+					   allowedMethods="POST">
+			<http:response>
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+			</http:response>
+		</http:listener>
+		<ee:transform doc:name="Transform Message" doc:id="b9473f7e-75c5-438f-a2c9-793ce82a7a0b">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://soap.backend.jaxrs.mastertheboss.com/
+---
+{
+	ns0#moveTeam: {
+		"team-id": attributes.uriParams.team_id,
+		"cave-id": attributes.uriParams.cave_id
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="26069111-e77d-4b77-9bea-8402d42fb0b8"
+					 config-ref="Web_Service_Consumer_Config" operation="moveTeam"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7c6b5258-3d1c-4103-b2d6-d27b85dc5ce7"
+				message="MOVE_TEAM_TO_CAVE"/>
+		<ee:transform doc:name="Transform Message" doc:id="32244b7d-a90e-4acf-88da-96434d343926">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns ns0 http://soap.backend.jaxrs.mastertheboss.com/
+---
+payload.body.ns0#moveTeamResponse.return.status]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="moveTeamOptions" doc:id="8147e2b9-d868-47f6-b67b-f670b91666a6">
+		<http:listener doc:name="Listener" doc:id="0a2d4a2a-5eb9-4831-8634-c9e204443d59"
+					   config-ref="HTTP_Listener_config" path="jax-rs-2/killer/teams/{team_id}/move-to-cave/{cave_id}"
+					   allowedMethods="OPTIONS">
+			<http:response>
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+			</http:response>
+		</http:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="e7d91016-f251-435c-8300-88aaece8f0e1"
+				message="MOVE_TEAM_OPTIONS"/>
+	</flow>
+</mule>
