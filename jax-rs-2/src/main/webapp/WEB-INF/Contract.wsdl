@@ -1,0 +1,399 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+				  xmlns:tns="http://soap.backend.jaxrs.mastertheboss.com/"
+				  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				  name="SoapWebServiceService" targetNamespace="http://soap.backend.jaxrs.mastertheboss.com/">
+	<script/>
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.backend.jaxrs.mastertheboss.com/"
+				   elementFormDefault="unqualified" targetNamespace="http://soap.backend.jaxrs.mastertheboss.com/"
+				   version="1.0">
+			<xs:element name="cave" type="tns:cave"/>
+			<xs:element name="createCave" type="tns:createCave"/>
+			<xs:element name="createCaveResponse" type="tns:createCaveResponse"/>
+			<xs:element name="createTeam" type="tns:createTeam"/>
+			<xs:element name="createTeamResponse" type="tns:createTeamResponse"/>
+			<xs:element name="deleteAllCaves" type="tns:deleteAllCaves"/>
+			<xs:element name="deleteAllCavesResponse" type="tns:deleteAllCavesResponse"/>
+			<xs:element name="deleteAllTeams" type="tns:deleteAllTeams"/>
+			<xs:element name="deleteAllTeamsResponse" type="tns:deleteAllTeamsResponse"/>
+			<xs:element name="deleteCave" type="tns:deleteCave"/>
+			<xs:element name="deleteCaveResponse" type="tns:deleteCaveResponse"/>
+			<xs:element name="getAllCaves" type="tns:getAllCaves"/>
+			<xs:element name="getAllCavesResponse" type="tns:getAllCavesResponse"/>
+			<xs:element name="getAllTeams" type="tns:getAllTeams"/>
+			<xs:element name="getAllTeamsResponse" type="tns:getAllTeamsResponse"/>
+			<xs:element name="getCaveById" type="tns:getCaveById"/>
+			<xs:element name="getCaveByIdResponse" type="tns:getCaveByIdResponse"/>
+			<xs:element name="moveTeam" type="tns:moveTeam"/>
+			<xs:element name="moveTeamResponse" type="tns:moveTeamResponse"/>
+			<xs:element name="response" type="tns:response"/>
+			<xs:element name="team" type="tns:team"/>
+			<xs:element name="updateCave" type="tns:updateCave"/>
+			<xs:element name="updateCaveResponse" type="tns:updateCaveResponse"/>
+			<xs:complexType name="createCave">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="cave" type="tns:cave"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="cave">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="coordinates" type="tns:coordinates"/>
+					<xs:element minOccurs="0" name="id" type="xs:long"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="coordinates">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="id" type="xs:long"/>
+					<xs:element minOccurs="0" name="x" type="xs:float"/>
+					<xs:element minOccurs="0" name="y" type="xs:long"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="createCaveResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:response"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="response">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="cave" type="tns:cave"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="caveList" nillable="true" type="tns:cave"/>
+					<xs:element minOccurs="0" name="exception" type="tns:exception"/>
+					<xs:element name="status" type="xs:int"/>
+					<xs:element minOccurs="0" name="team" type="tns:team"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="teamList" nillable="true" type="tns:team"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="exception">
+				<xs:complexContent>
+					<xs:extension base="tns:throwable">
+						<xs:sequence/>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="throwable">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="stackTrace" nillable="true"
+								type="tns:stackTraceElement"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType final="extension restriction" name="stackTraceElement">
+				<xs:sequence/>
+			</xs:complexType>
+			<xs:complexType name="team">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="cave" type="tns:cave"/>
+					<xs:element minOccurs="0" name="id" type="xs:long"/>
+					<xs:element minOccurs="0" name="name" type="xs:string"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="personList" nillable="true"
+								type="tns:person"/>
+					<xs:element minOccurs="0" name="size" type="xs:short"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="person">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="birthday" type="xs:dateTime"/>
+					<xs:element minOccurs="0" name="hairColor" type="tns:color"/>
+					<xs:element minOccurs="0" name="height" type="xs:long"/>
+					<xs:element minOccurs="0" name="id" type="xs:long"/>
+					<xs:element minOccurs="0" name="name" type="xs:string"/>
+					<xs:element minOccurs="0" name="passportID" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="deleteCave">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="cave-id" type="xs:long"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="deleteCaveResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:response"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getAllCaves">
+				<xs:sequence/>
+			</xs:complexType>
+			<xs:complexType name="getAllCavesResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:response"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getAllTeams">
+				<xs:sequence/>
+			</xs:complexType>
+			<xs:complexType name="getAllTeamsResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:response"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="deleteAllTeams">
+				<xs:sequence/>
+			</xs:complexType>
+			<xs:complexType name="deleteAllTeamsResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:response"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="deleteAllCaves">
+				<xs:sequence/>
+			</xs:complexType>
+			<xs:complexType name="deleteAllCavesResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:response"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="moveTeam">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="team-id" type="xs:long"/>
+					<xs:element minOccurs="0" name="cave-id" type="xs:long"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="moveTeamResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:response"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="createTeam">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="team-id" type="xs:long"/>
+					<xs:element minOccurs="0" name="team-name" type="xs:string"/>
+					<xs:element minOccurs="0" name="team-size" type="xs:short"/>
+					<xs:element minOccurs="0" name="start-cave-id" type="xs:long"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="persons-ids" type="xs:long"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="createTeamResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:response"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getCaveById">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="cave-id" type="xs:long"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getCaveByIdResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:response"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="updateCave">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="cave" type="tns:cave"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="updateCaveResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:response"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:simpleType name="color">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="ORANGE"/>
+					<xs:enumeration value="WHITE"/>
+					<xs:enumeration value="BROWN"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getAllCaves">
+		<wsdl:part element="tns:getAllCaves" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getAllTeams">
+		<wsdl:part element="tns:getAllTeams" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteAllTeams">
+		<wsdl:part element="tns:deleteAllTeams" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteAllTeamsResponse">
+		<wsdl:part element="tns:deleteAllTeamsResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteAllCaves">
+		<wsdl:part element="tns:deleteAllCaves" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="moveTeam">
+		<wsdl:part element="tns:moveTeam" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="createCaveResponse">
+		<wsdl:part element="tns:createCaveResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateCaveResponse">
+		<wsdl:part element="tns:updateCaveResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="createTeam">
+		<wsdl:part element="tns:createTeam" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteCaveResponse">
+		<wsdl:part element="tns:deleteCaveResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="createTeamResponse">
+		<wsdl:part element="tns:createTeamResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getCaveById">
+		<wsdl:part element="tns:getCaveById" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getAllTeamsResponse">
+		<wsdl:part element="tns:getAllTeamsResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getCaveByIdResponse">
+		<wsdl:part element="tns:getCaveByIdResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateCave">
+		<wsdl:part element="tns:updateCave" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="createCave">
+		<wsdl:part element="tns:createCave" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteCave">
+		<wsdl:part element="tns:deleteCave" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteAllCavesResponse">
+		<wsdl:part element="tns:deleteAllCavesResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="moveTeamResponse">
+		<wsdl:part element="tns:moveTeamResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getAllCavesResponse">
+		<wsdl:part element="tns:getAllCavesResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="SoapWebService">
+		<wsdl:operation name="createCave">
+			<wsdl:input message="tns:createCave" name="createCave"></wsdl:input>
+			<wsdl:output message="tns:createCaveResponse" name="createCaveResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteCave">
+			<wsdl:input message="tns:deleteCave" name="deleteCave"></wsdl:input>
+			<wsdl:output message="tns:deleteCaveResponse" name="deleteCaveResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getAllCaves">
+			<wsdl:input message="tns:getAllCaves" name="getAllCaves"></wsdl:input>
+			<wsdl:output message="tns:getAllCavesResponse" name="getAllCavesResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getAllTeams">
+			<wsdl:input message="tns:getAllTeams" name="getAllTeams"></wsdl:input>
+			<wsdl:output message="tns:getAllTeamsResponse" name="getAllTeamsResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteAllTeams">
+			<wsdl:input message="tns:deleteAllTeams" name="deleteAllTeams"></wsdl:input>
+			<wsdl:output message="tns:deleteAllTeamsResponse" name="deleteAllTeamsResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteAllCaves">
+			<wsdl:input message="tns:deleteAllCaves" name="deleteAllCaves"></wsdl:input>
+			<wsdl:output message="tns:deleteAllCavesResponse" name="deleteAllCavesResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="moveTeam">
+			<wsdl:input message="tns:moveTeam" name="moveTeam"></wsdl:input>
+			<wsdl:output message="tns:moveTeamResponse" name="moveTeamResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="createTeam">
+			<wsdl:input message="tns:createTeam" name="createTeam"></wsdl:input>
+			<wsdl:output message="tns:createTeamResponse" name="createTeamResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getCaveById">
+			<wsdl:input message="tns:getCaveById" name="getCaveById"></wsdl:input>
+			<wsdl:output message="tns:getCaveByIdResponse" name="getCaveByIdResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="updateCave">
+			<wsdl:input message="tns:updateCave" name="updateCave"></wsdl:input>
+			<wsdl:output message="tns:updateCaveResponse" name="updateCaveResponse"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SoapWebServiceServiceSoapBinding" type="tns:SoapWebService">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="createCave">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="createCave">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="createCaveResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteCave">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="deleteCave">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="deleteCaveResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getAllCaves">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="getAllCaves">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getAllCavesResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getAllTeams">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="getAllTeams">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getAllTeamsResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteAllTeams">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="deleteAllTeams">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="deleteAllTeamsResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteAllCaves">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="deleteAllCaves">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="deleteAllCavesResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="moveTeam">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="moveTeam">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="moveTeamResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="createTeam">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="createTeam">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="createTeamResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getCaveById">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="getCaveById">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getCaveByIdResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="updateCave">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="updateCave">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="updateCaveResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SoapWebServiceService">
+		<wsdl:port binding="tns:SoapWebServiceServiceSoapBinding" name="SoapWebServicePort">
+			<soap:address location="http://localhost:21584/jax-rs-2/SoapWebService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
